@@ -21,12 +21,6 @@ Before flashing an installed clock, connect USB, tap, and press KEY to keep USB 
 
 The tool selects a single connected Espressif device. Use `PORT=/dev/cu.…` to choose explicitly, particularly when multiple boards are connected.
 
-## Releases
-
-[Releases](https://github.com/brianfakhoury/bedroom-clock/releases) include `clock.bin` for flashing and `clock.elf` and `clock.map` for debugging. The image starts at flash address `0`.
-
-Pushing an annotated `v*` tag builds and tests the firmware, then publishes these files with the tag message as release notes.
-
 ## Set the time
 
 The time is set automatically by the flash script, but you can set it again (disconnecting all power can lose the time): Connect USB, tap, press KEY, then run:
