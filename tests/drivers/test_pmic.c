@@ -159,7 +159,10 @@ static void test_output_masks(void) {
   registers[0x80] = 0xff;
   registers[0x90] = 0xff;
   registers[0x91] = 0xff;
-  assert(pmic_outputs_disable(0x1e, 0xfa, true));
+  assert(pmic_outputs_disable(PMIC_DCDC2 | PMIC_DCDC3 | PMIC_DCDC4 | PMIC_DCDC5,
+                              PMIC_ALDO2 | PMIC_ALDO4 | PMIC_BLDO1 | PMIC_BLDO2 |
+                                  PMIC_CPUSLDO | PMIC_DLDO1,
+                              true));
   assert(registers[0x80] == 0xe1 && registers[0x90] == 5 &&
          registers[0x91] == 0xfe);
 }
@@ -201,8 +204,10 @@ static void test_interrupts_disable(void) {
 static void test_adc_and_temperature_selection(void) {
   reset();
   registers[0x30] = 0xff;
-  assert(pmic_adc_disable(0x3c) && registers[0x30] == 0xc3);
-  assert(pmic_adc_disable(0x3e) && registers[0x30] == 0xc1);
+  const uint8_t unused = PMIC_ADC_VBUS | PMIC_ADC_VSYS |
+                         PMIC_ADC_DIE_TEMPERATURE | PMIC_ADC_GENERAL_PURPOSE;
+  assert(pmic_adc_disable(unused) && registers[0x30] == 0xc3);
+  assert(pmic_adc_disable(unused | PMIC_ADC_TS) && registers[0x30] == 0xc1);
   assert(!pmic_adc_disable(0x80));
   bool enabled = true;
   registers[0x50] = 0x12;

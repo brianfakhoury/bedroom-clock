@@ -16,7 +16,10 @@ static uint32_t* clock_register(uint32_t address) {
 
 #undef REG
 #define REG(address) (*clock_register(address))
+#include "../../src/hal/power.c"
 #include "../../src/board/board_power.c"
+
+void delay_us(uint32_t us) { (void)us; }
 
 enum {
   CHARGE,
@@ -86,10 +89,29 @@ static void enable_clocks(void) {
 }
 
 static void check_clocks(void) {
-  assert(REG(0x60096000) == (~0u & ~BIT(0)));   // UART0 register clock.
-  assert(REG(0x60096004) == (~0u & ~BIT(22)));  // UART0 functional clock.
-  assert(REG(0x60096080) == (~0u & ~(BIT(0) | BIT(2))));  // ADC gates.
-  assert(REG(0x6009608c) == ~0u);  // USB must stay available.
+  // Original board policy, expressed as offsets to catch mapping/mask changes.
+  static const unsigned register_offsets[] = {
+      0x00, 0x0c, 0x20, 0x28, 0x2c, 0x34, 0x5c, 0x64,
+      0x6c, 0x98, 0xa4, 0xbc, 0xc8, 0xcc, 0xd0, 0xd8,
+      0x3c, 0x48, 0x94, 0x9c, 0xb0, 0xc0, 0xe0,
+  };
+  static const unsigned functional_offsets[] = {
+      0x04, 0x10, 0x24, 0x30, 0x38, 0x40, 0x44, 0x4c, 0x50,
+      0x60, 0x68, 0x70, 0x78, 0x84, 0x88, 0xa0, 0xc4,
+  };
+  uint32_t expected[64];
+  for (unsigned i = 0; i < 64; i++) expected[i] = ~0u;
+  for (unsigned i = 0;
+       i < sizeof(register_offsets) / sizeof(*register_offsets); i++)
+    expected[register_offsets[i] / 4] &= ~BIT(0);
+  for (unsigned i = 0;
+       i < sizeof(functional_offsets) / sizeof(*functional_offsets); i++)
+    expected[functional_offsets[i] / 4] &= ~BIT(22);
+  expected[0xa8 / 4] &= ~BIT(18);
+  expected[0xac / 4] &= ~BIT(18);
+  expected[0x80 / 4] &= ~(BIT(0) | BIT(2));
+  // Check every register, including USB and other gates that must stay enabled.
+  for (unsigned i = 0; i < 64; i++) assert(clock_registers[i] == expected[i]);
 }
 
 bool sleep_prepare(unsigned pin) {

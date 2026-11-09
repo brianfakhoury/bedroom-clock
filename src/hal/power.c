@@ -22,3 +22,20 @@ void radios_disable(void) {
   delay_us(2);
   REG(PMU_RADIO_POWER) = power | BIT(5);  // Force power-down
 }
+
+void peripheral_register_clock_disable(uint32_t register_address) {
+  REG(register_address) &= ~PCR_REGISTER_CLOCK_ENABLE;
+}
+
+void peripheral_functional_clock_disable(uint32_t register_address) {
+  REG(register_address) &= ~PCR_FUNCTIONAL_CLOCK_ENABLE;
+}
+
+void parlio_functional_clocks_disable(void) {
+  REG(PCR_PARLIO_RX_CLOCK) &= ~PCR_PARLIO_CLOCK_ENABLE;
+  REG(PCR_PARLIO_TX_CLOCK) &= ~PCR_PARLIO_CLOCK_ENABLE;
+}
+
+void adc_register_clocks_disable(void) {
+  REG(PCR_ADC_CONFIG) &= ~PCR_ADC_CLOCK_ENABLE;
+}
