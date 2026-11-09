@@ -1,0 +1,21 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          python-version: '3.12'
+      - run: make setup
+      - run: make all test
+      - run: |
+          gh release create "$GITHUB_REF_NAME" build/clock.bin build/clock.elf build/clock.map \
+            --verify-tag --title "$GITHUB_REF_NAME" --notes-from-tag
+        env:
+          GH_TOKEN: ${{ github.token }}

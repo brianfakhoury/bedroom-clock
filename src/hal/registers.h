@@ -1,0 +1,130 @@
+#pragma once
+#include <stdint.h>
+#define REG(a) (*(volatile uint32_t*)(uintptr_t)(a))
+#define BIT(n) (1u << (n))
+// ESP32-C6 addresses used by this firmware, checked against ESP-IDF v5.4.2
+#define GPIO_OUT_SET 0x60091008u
+#define GPIO_OUT_CLEAR 0x6009100cu
+#define GPIO_ENABLE_SET 0x60091024u
+#define GPIO_ENABLE_CLEAR 0x60091028u
+#define GPIO_INPUT_REG 0x6009103cu
+#define GPIO_STATUS 0x60091044u
+#define GPIO_STATUS_CLEAR 0x6009104cu
+#define GPIO_PIN0 0x60091074u
+#define GPIO_OUT_SELECT0 0x60091554u
+#define IOMUX_GPIO0 0x60090004u
+
+#define PCR_USB_CONFIG 0x6009608cu
+#define USB_CONFIG 0x6000f018u
+#define USB_FIFO 0x6000f000u
+#define USB_FIFO_CONFIG 0x6000f004u
+#define USB_IRQ_RAW 0x6000f008u
+#define USB_IRQ_ENABLE 0x6000f010u
+#define USB_IRQ_CLEAR 0x6000f014u
+
+#define SYSTIMER_CONFIG 0x6000a000u
+#define SYSTIMER_UPDATE0 0x6000a004u
+#define SYSTIMER_TARGET0_HIGH 0x6000a01cu
+#define SYSTIMER_TARGET0_LOW 0x6000a020u
+#define SYSTIMER_TARGET0_CONFIG 0x6000a034u
+#define SYSTIMER_VALUE0_HIGH 0x6000a040u
+#define SYSTIMER_VALUE0_LOW 0x6000a044u
+#define SYSTIMER_TARGET0_LOAD 0x6000a050u
+#define SYSTIMER_IRQ_ENABLE 0x6000a064u
+#define SYSTIMER_IRQ_RAW 0x6000a068u
+#define SYSTIMER_IRQ_CLEAR 0x6000a06cu
+#define PCR_SYSTIMER_CONFIG 0x60096054u
+#define PCR_SYSTIMER_CLOCK 0x60096058u
+
+#define PLIC_ENABLE 0x20001000u
+#define PLIC_TYPE 0x20001004u
+#define PLIC_PRIORITY1 0x20001014u
+#define PLIC_THRESHOLD 0x20001090u
+#define IRQ_MAP_GPIO 0x60010078u
+#define IRQ_MAP_USB 0x600100c0u
+#define IRQ_MAP_SYSTIMER0 0x600100e4u
+
+#define TIMG0_BASE 0x60008000u
+#define TIMG_WDT_CONFIG 0x48u
+#define TIMG_WDT_PROTECT 0x64u
+#define EFUSE_WDT_DELAY 0x600b0834u
+#define LP_WDT_TIMEOUT 0x600b1c04u
+#define LP_WDT_FEED 0x600b1c14u
+#define LP_WDT_CONFIG 0x600b1c00u
+#define LP_WDT_PROTECT 0x600b1c18u
+#define LP_SWD_CONFIG 0x600b1c1cu
+#define LP_SWD_PROTECT 0x600b1c20u
+
+#define LP_GPIO_MUX 0x600b1028u
+#define LP_GPIO_HOLD 0x600b102cu
+
+#define PCR_CPU_WAITI 0x60096114u
+
+// Radio clock/reset controls are outside the switchable modem logic domain
+#define MODEM_CLOCKS 0x600a9804u
+#define MODEM_CLOCKS_FORCE 0x600a9808u
+#define MODEM_RESET 0x600a9810u
+#define MODEM_CLOCKS1 0x600a9814u
+#define MODEM_CLOCKS1_FORCE 0x600a9818u
+#define MODEM_LP_CLOCKS 0x600af018u
+#define PMU_RADIO_POWER 0x600b0104u
+#define PMU_ACTIVE_POWER 0x600b0000u
+
+// PMU state registers: HP active/modem/sleep, LP active/sleep
+#define PMU_HP_DIG_POWER(mode) (0x600b0000u + (mode) * 0x34u)
+#define PMU_HP_ICG_FUNC(mode) (0x600b0004u + (mode) * 0x34u)
+#define PMU_HP_ICG_APB(mode) (0x600b0008u + (mode) * 0x34u)
+#define PMU_HP_ICG_MODEM(mode) (0x600b000cu + (mode) * 0x34u)
+#define PMU_HP_SYSCNTL(mode) (0x600b0010u + (mode) * 0x34u)
+#define PMU_HP_CLK_POWER(mode) (0x600b0014u + (mode) * 0x34u)
+#define PMU_HP_BIAS(mode) (0x600b0018u + (mode) * 0x34u)
+#define PMU_HP_BACKUP(mode) (0x600b001cu + (mode) * 0x34u)
+#define PMU_HP_BACKUP_CLK(mode) (0x600b0020u + (mode) * 0x34u)
+#define PMU_HP_SYSCLK(mode) (0x600b0024u + (mode) * 0x34u)
+#define PMU_HP_REGULATOR0(mode) (0x600b0028u + (mode) * 0x34u)
+#define PMU_HP_REGULATOR1(mode) (0x600b002cu + (mode) * 0x34u)
+#define PMU_HP_XTAL(mode) (0x600b0030u + (mode) * 0x34u)
+#define PMU_LP_REGULATOR0(mode) (0x600b009cu + (mode) * 0x18u)
+#define PMU_LP_REGULATOR1(mode) (0x600b00a0u + (mode) * 0x18u)
+#define PMU_LP_XTAL(mode) (0x600b00a4u + (mode) * 0x18u)
+#define PMU_LP_DIG_POWER(mode) (0x600b00a8u + (mode) * 0x18u)
+#define PMU_LP_CLK_POWER(mode) (0x600b00acu + (mode) * 0x18u)
+#define PMU_LP_BIAS(mode) (0x600b00b0u + (mode) * 0x18u)
+#define PMU_IMM_MODEM_ICG 0x600b00dcu
+#define PMU_IMM_SLEEP_SYSCLK 0x600b00d0u
+#define PMU_WAKEUP_CNTL3 0x600b012cu
+#define PMU_WAKEUP_CNTL5 0x600b0134u
+#define PMU_WAKEUP_CNTL7 0x600b013cu
+#define PMU_DOMAIN_POWER(domain) (0x600b00f4u + (domain) * 4u)
+#define PMU_POWER_MEM_CNTL 0x600b010cu
+#define PMU_POWER_LP_PERI 0x600b0108u
+#define PMU_POWER_WAIT_TIMER0 0x600b00ecu
+#define PMU_POWER_WAIT_TIMER1 0x600b00f0u
+#define PMU_POWER_CLK_WAIT 0x600b011cu
+#define PMU_HP_EXT_RF_PWC 0x600b0154u
+
+// Deep-sleep entry and always-on wake control
+#define PMU_WAKEUP_CNTL0 (0x600b0000u + 0x120u)
+#define PMU_WAKEUP_CNTL1 (0x600b0000u + 0x124u)
+#define PMU_WAKEUP_CNTL2 (0x600b0000u + 0x128u)
+#define PMU_WAKEUP_CNTL4 (0x600b0000u + 0x130u)
+#define PMU_HP_INT_CLR (0x600b0000u + 0x168u)
+#define LP_AON_SYS_CFG (0x600b1000u + 0x34u)
+#define LP_IO_PIN0 0x600b2028u
+#define LP_IO_CLEAR 0x600b2020u
+#define LP_IO_PAD0 0x600b2048u
+#define LP_IO_STATUS 0x600b2018u
+#define LP_TIMER_TARGET_HIGH 0x600b0c04u
+#define LP_TIMER_CLEAR 0x600b0c34u
+#define RTC_SLEEP_MODE 0x600b1024u
+#define LPPERI_CLK_EN 0x600b2800u
+#define LP_IO_DATE 0x600b23fcu
+#define LP_IO_OUT_ENABLE_W1TC 0x600b2014u
+
+// Regulator calibration and internal analog I2C access
+#define LP_FAST_CLOCK 0x600b0400u
+#define EFUSE_REGULATOR_BIAS 0x600b084cu
+#define EFUSE_BLOCK2_VERSION 0x600b0850u
+#define ANALOG_I2C_CONTROL0 0x600af800u
+#define ANALOG_I2C_READ_SELECT 0x600af81cu
+#define ANALOG_I2C_MASTER_SELECT 0x600af820u

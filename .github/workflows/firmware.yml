@@ -1,0 +1,24 @@
+name: Firmware
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          python-version: '3.12'
+      - run: make setup
+      - run: make all test
+      - uses: actions/upload-artifact@v7
+        with:
+          name: firmware
+          path: |
+            build/clock.bin
+            build/clock.elf
+            build/clock.map
