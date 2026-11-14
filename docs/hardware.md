@@ -73,4 +73,4 @@ A PMIC state can survive an ESP32 USB reset. The tested recovery sequence was:
 unplug USB, hold PWR for 10–12 seconds, release for 5 seconds, hold PWR for
 about 2 seconds, then reconnect USB. This recovered the shared bus after the
 audio-rail experiment without opening the enclosure. Losing all power can
-invalidate the RTC; wake, press KEY and run `cargo xtask set-time` afterward.
+invalidate the RTC; wake, press KEY and run `cargo set-time` afterward.

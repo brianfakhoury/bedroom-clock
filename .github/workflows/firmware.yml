@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       # rustup installs the toolchain pinned in rust-toolchain.toml on first use
-      - run: cargo xtask build
+      - run: cargo firmware
       - run: cargo test
       - run: cargo fmt --all --check
       - run: cargo clippy --all-targets -- --deny warnings

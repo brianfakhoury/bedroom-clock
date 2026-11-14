@@ -98,7 +98,7 @@ resumes through `boot/wake.S` with a fresh stack and retained application state.
 Runtime code and state live in 16 KiB retained LP SRAM, with a linker-enforced
 4 KiB stack reserve. Startup-only hardware routines use disposable HP SRAM:
 they are placed in `.init.code` and `.init.data` by attribute, and must never
-be called after the first sleep. `cargo xtask build` reports retained use.
+be called after the first sleep. `cargo firmware` reports retained use.
 The LP CPU does not execute this code; the HP CPU uses retained memory on wake.
 
 HP CPU/TOP/AON, radio, flash supply, main crystal/PLL and RC_FAST sleep. LP GPIO

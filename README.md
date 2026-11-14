@@ -9,14 +9,14 @@ You tap to show the time for three seconds. Red digits fade in and out, rotate w
 Install [rustup](https://rustup.rs). The pinned compiler and its RISC-V target install themselves on first use; the firmware itself depends on no crates.
 
 ```sh
-cargo xtask build
+cargo firmware
 cargo test
-cargo xtask flash
+cargo flash
 ```
 
 Before flashing an installed clock, connect USB, tap, and press KEY to keep USB available. For initial installation or downloader recovery, hold BOOT while connecting USB with the board powered off, then release BOOT.
 
-`cargo xtask flash` builds and installs local source, verifies the flash, and sets the RTC from the computer. Startup shows the time, fades out, and sleeps, just like a touch wake. If it sleeps before time setting finishes, tap and press KEY when prompted; press KEY again to resume normal sleep.
+`cargo flash` builds and installs local source, verifies the flash, and sets the RTC from the computer. Startup shows the time, fades out, and sleeps, just like a touch wake. If it sleeps before time setting finishes, tap and press KEY when prompted; press KEY again to resume normal sleep.
 
 The tool selects a single connected Espressif device. Use `--port /dev/cu.…` to choose explicitly, particularly when multiple boards are connected.
 
@@ -25,7 +25,7 @@ The tool selects a single connected Espressif device. Use `--port /dev/cu.…` t
 The time is set automatically when flashing, but you can set it again (disconnecting all power can lose the time): Connect USB, tap, press KEY, then run:
 
 ```sh
-cargo xtask set-time
+cargo set-time
 ```
 
 Press KEY again when finished. The clock shows dashes if its RTC is invalid.

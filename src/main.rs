@@ -60,5 +60,5 @@ extern "C" fn wake_main() -> ! {
 
 #[cfg(not(any(target_os = "none", test)))]
 fn main() {
-    eprintln!("This is firmware: build it with `cargo xtask build`, test it with `cargo test`.");
+    eprintln!("This is firmware: build it with `cargo firmware`, test it with `cargo test`.");
 }

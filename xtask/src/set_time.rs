@@ -27,7 +27,7 @@ pub fn set_time<Link: Read + Write>(
             Err(_) => sleep(Duration::from_millis(200)),
         }
     }
-    Err("No time acknowledgement. Tap, press KEY, then run cargo xtask set-time.")
+    Err("No time acknowledgement. Tap, press KEY, then run cargo set-time.")
 }
 
 /// Send one request and wait until `patience` runs out for the answer

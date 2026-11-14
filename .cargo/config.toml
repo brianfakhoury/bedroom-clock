@@ -1,2 +1,5 @@
 [alias]
 xtask = "run --quiet --package xtask --"
+firmware = "xtask build"
+flash = "xtask flash"
+set-time = "xtask set-time"

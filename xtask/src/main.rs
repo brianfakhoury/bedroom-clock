@@ -1,4 +1,5 @@
-//! Build, flash and set the clock: `cargo xtask <build | flash | set-time>`.
+//! Build, flash and set the clock. `.cargo/config.toml` names the commands:
+//! `cargo firmware`, `cargo flash` and `cargo set-time`.
 
 mod image;
 mod port;
@@ -17,11 +18,10 @@ use espflash::target::{Chip, DefaultProgressCallback};
 type Result<T> = std::result::Result<T, Box<dyn Error>>;
 
 const USAGE: &str = "\
-Usage: cargo xtask <command> [--port PORT]
-
-  build      Compile the firmware and create target/clock.bin
-  flash      Build, write the image to the clock, then set its time
-  set-time   Copy this computer's UTC time to the clock
+Usage:
+  cargo firmware                Compile the firmware and create target/clock.bin
+  cargo flash [--port PORT]     Build, write the image to the clock, then set its time
+  cargo set-time [--port PORT]  Copy this computer's UTC time to the clock
 
 PORT selects a serial port when several Espressif devices are connected.";
 
