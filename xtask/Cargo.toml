@@ -1,0 +1,11 @@
+[package]
+name = "xtask"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+espflash = { version = "4.7", default-features = false, features = ["serialport"] }
+object = { version = "0.40", default-features = false, features = ["read", "std"] }
+serialport = { version = "4.10", default-features = false }
+sha2 = "0.11"

@@ -1,14 +1,6 @@
-.toolchain/
-build/
+target/
 backups/
-__pycache__/
-*.pyc
 .DS_Store
 # Raw diagnostic artifacts are not release inputs.
 /experiments/
 *.log
-*.bin
-*.elf
-*.map
-.venv/
-.pytest_cache/

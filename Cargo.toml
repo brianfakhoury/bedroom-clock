@@ -1,0 +1,22 @@
+[package]
+name = "bedroom-clock"
+version = "0.12.0"
+edition = "2024"
+license = "MIT"
+publish = false
+autotests = false # tests/ is compiled into the firmware crate; see src/main.rs
+
+[[bin]]
+name = "clock"
+path = "src/main.rs"
+
+[workspace]
+members = ["xtask"]
+default-members = [".", "xtask"]
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+debug = true

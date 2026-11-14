@@ -1,0 +1,10 @@
+mod animation;
+mod battery_indicator;
+mod clock;
+mod digits;
+mod event_loop;
+mod geometry;
+mod input;
+mod local_time;
+mod orientation;
+mod time_sync;

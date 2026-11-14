@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10.3.3
-        with:
-          version: latest
-          python-version: '3.12'
-      - run: make setup
-      - run: make all test
+      # rustup installs the toolchain pinned in rust-toolchain.toml on first use
+      - run: cargo xtask build
+      - run: cargo test
+      - run: cargo fmt --all --check
+      - run: cargo clippy --all-targets -- --deny warnings
+      - run: cargo clippy --release --package bedroom-clock --target riscv32imac-unknown-none-elf -- --deny warnings
       - uses: actions/upload-artifact@v7
         with:
           name: firmware
           path: |
-            build/clock.bin
-            build/clock.elf
-            build/clock.map
+            target/clock.bin
+            target/clock.elf
+            target/clock.map

@@ -15,7 +15,7 @@ and pinned vendor sources are indexed in [references](references/README.md).
 
 ## Wiring and display
 
-`src/board/pins.h` names the GPIO connections. Panel CS is GPIO15, touch IRQ
+`src/board/pins.rs` names the GPIO connections. Panel CS is GPIO15, touch IRQ
 is GPIO5, and touch reset is GPIO11. Some vendor examples swap CS and IRQ;
 the schematic and XiaoZhi configuration agree with this firmware.
 
@@ -46,7 +46,7 @@ The [power audit](power-audit.md) records the circuit trace and device trials.
 ## Battery
 
 The installed MakerHawk 1000 mAh pack uses a 4200 mV / 500 mA / 50 mA
-termination profile in `src/board/battery.h`, based on the supplied retailer
+termination profile in `src/board/battery.rs`, based on the supplied retailer
 specification. No original cell-manufacturer datasheet has been found.
 The connector names MX1.25/GH1.25 do not by themselves establish compatibility;
 the schematic labels pin 1 positive and pin 2 ground.
@@ -73,4 +73,4 @@ A PMIC state can survive an ESP32 USB reset. The tested recovery sequence was:
 unplug USB, hold PWR for 10–12 seconds, release for 5 seconds, hold PWR for
 about 2 seconds, then reconnect USB. This recovered the shared bus after the
 audio-rail experiment without opening the enclosure. Losing all power can
-invalidate the RTC; wake, press KEY and run `make set-time` afterward.
+invalidate the RTC; wake, press KEY and run `cargo xtask set-time` afterward.
